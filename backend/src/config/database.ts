@@ -1,10 +1,12 @@
-import mysql from 'mysql2/promise';
+﻿import mysql from 'mysql2/promise';
 import dotenv from 'dotenv';
 import path from 'path';
 
-// Đảm bảo dotenv luôn đọc đúng file .env trong thư mục backend
+// Nạp .env từ backend/ hoặc từ root
+dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') });
+dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') });
 dotenv.config({ path: path.resolve(process.cwd(), '.env') });
-dotenv.config(); // fallback nếu chạy từ root
+dotenv.config();
 
 export const pool = mysql.createPool({
   host: process.env.DB_HOST || 'localhost',
@@ -26,7 +28,7 @@ export const checkDatabaseConnection = async (): Promise<boolean> => {
     connection.release();
     return true;
   } catch (error) {
-    const err = error as Error & { code?: string };
+    const err = error as Error & { code?: string; errno?: number };
     console.error(`[MySQL Connection Error] Code: ${err.code || 'UNKNOWN'} | Message: ${err.message}`);
     return false;
   }
