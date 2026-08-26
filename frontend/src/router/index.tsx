@@ -5,6 +5,7 @@ import { HomePage } from '../pages/HomePage';
 import { DashboardPage } from '../pages/DashboardPage';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
+import { TasksPage } from '../pages/TasksPage';
 import { PlaceholderPage } from '../pages/PlaceholderPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { PublicOnlyRoute } from '../components/auth/PublicOnlyRoute';
@@ -39,7 +40,7 @@ export const router = createBrowserRouter([
           },
           {
             path: '/tasks',
-            element: <PlaceholderPage />,
+            element: <TasksPage />,
           },
           {
             path: '/calendar',
