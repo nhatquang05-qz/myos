@@ -1,24 +1,17 @@
 ﻿import mysql from 'mysql2/promise';
-import dotenv from 'dotenv';
-import path from 'path';
-
-// Nạp .env từ backend/ hoặc từ root
-dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') });
-dotenv.config({ path: path.resolve(process.cwd(), 'backend/.env') });
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
-dotenv.config();
+import { env } from './env.js';
 
 export const pool = mysql.createPool({
-  host: process.env.DB_HOST || 'localhost',
-  port: Number(process.env.DB_PORT) || 3306,
-  user: process.env.DB_USER || 'root',
-  password: process.env.DB_PASSWORD || '',
-  database: process.env.DB_NAME || 'myos_db',
+  host: env.DB_HOST,
+  port: env.DB_PORT,
+  user: env.DB_USER,
+  password: env.DB_PASSWORD,
+  database: env.DB_NAME,
   waitForConnections: true,
-  connectionLimit: Number(process.env.DB_CONNECTION_LIMIT) || 10,
+  connectionLimit: env.DB_CONNECTION_LIMIT,
   queueLimit: 0,
   enableKeepAlive: true,
-  keepAliveInitialDelay: 0
+  keepAliveInitialDelay: 0,
 });
 
 export const checkDatabaseConnection = async (): Promise<boolean> => {

@@ -2,12 +2,15 @@
   "name": "myos-backend",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/app.js",
+  "type": "module",
+  "main": "dist/server.js",
   "scripts": {
-    "dev": "tsx watch src/app.ts",
+    "dev": "tsx watch src/server.ts",
     "build": "tsc",
-    "start": "node dist/app.js",
-    "lint": "eslint src --ext .ts"
+    "start": "node dist/server.js",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint src --ext .ts",
+    "seed": "tsx src/config/seed.ts"
   },
   "dependencies": {
     "bcrypt": "^5.1.1",

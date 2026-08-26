@@ -1,5 +1,6 @@
 import { Request, Response, NextFunction } from 'express';
 import { ApiResponse } from '../types/api.js';
+import { env } from '../config/env.js';
 
 export class AppError extends Error {
   public statusCode: number;
@@ -29,7 +30,11 @@ export const errorHandler = (
     return;
   }
 
-  const isProduction = process.env.NODE_ENV === 'production';
+  const isProduction = env.NODE_ENV === 'production';
+  if (!isProduction) {
+    console.error('[Unhandled Error]:', err);
+  }
+
   const serverErrorResponse: ApiResponse = {
     success: false,
     message: isProduction ? 'Internal Server Error' : err.message,
