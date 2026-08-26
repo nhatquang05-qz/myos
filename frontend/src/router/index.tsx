@@ -1,5 +1,4 @@
-﻿import React from 'react';
-import { createBrowserRouter, Navigate } from 'react-router-dom';
+﻿import { createBrowserRouter, Navigate } from 'react-router-dom';
 import { MainLayout } from '../layouts/MainLayout';
 import { HomePage } from '../pages/HomePage';
 import { DashboardPage } from '../pages/DashboardPage';
@@ -7,6 +6,8 @@ import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { TasksPage } from '../pages/TasksPage';
 import { NotesPage } from '../pages/NotesPage';
+import { CalendarPage } from '../pages/CalendarPage';
+import { FinancePage } from '../pages/FinancePage';
 import { PlaceholderPage } from '../pages/PlaceholderPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { PublicOnlyRoute } from '../components/auth/PublicOnlyRoute';
@@ -45,7 +46,7 @@ export const router = createBrowserRouter([
           },
           {
             path: '/calendar',
-            element: <PlaceholderPage />,
+            element: <CalendarPage />,
           },
           {
             path: '/study',
@@ -57,7 +58,7 @@ export const router = createBrowserRouter([
           },
           {
             path: '/finance',
-            element: <PlaceholderPage />,
+            element: <FinancePage />,
           },
           {
             path: '/notes',

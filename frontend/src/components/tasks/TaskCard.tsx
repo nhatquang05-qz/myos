@@ -1,7 +1,7 @@
 import React from 'react';
 import { Task, TaskStatus } from '../../types/task';
 import { TaskPriorityBadge, TaskStatusBadge } from './TaskBadges';
-import { Calendar, Tag, MoreVertical, Edit2, Trash2, CheckCircle, Clock } from 'lucide-react';
+import { Tag, MoreVertical, Edit2, Trash2, CheckCircle, Clock } from 'lucide-react';
 
 interface TaskCardProps {
   task: Task;
