@@ -6,6 +6,7 @@ import { DashboardPage } from '../pages/DashboardPage';
 import { LoginPage } from '../pages/LoginPage';
 import { RegisterPage } from '../pages/RegisterPage';
 import { TasksPage } from '../pages/TasksPage';
+import { NotesPage } from '../pages/NotesPage';
 import { PlaceholderPage } from '../pages/PlaceholderPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { PublicOnlyRoute } from '../components/auth/PublicOnlyRoute';
@@ -60,7 +61,7 @@ export const router = createBrowserRouter([
           },
           {
             path: '/notes',
-            element: <PlaceholderPage />,
+            element: <NotesPage />,
           },
           {
             path: '/snippets',
