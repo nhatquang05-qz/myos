@@ -86,9 +86,21 @@ export const GradesPage: React.FC = () => {
       ? [semesterGpaSummary]
       : [];
 
-  const currentSummaryForTopMetrics =
+  // Tổng hợp số liệu chính xác khi chọn 'ALL' hoặc chọn từng học kỳ cụ thể
+  const currentSummaryForTopMetrics: SemesterGpaSummary | null =
     selectedSemesterId === 'ALL'
-      ? allSemestersSummaries.find((s) => s.isCurrent) || allSemestersSummaries[0] || null
+      ? {
+          semesterId: 'ALL',
+          semesterName: 'Tất cả học kỳ',
+          academicYear: 'Toàn khóa',
+          isCurrent: false,
+          totalCredits: allSemestersSummaries.reduce((sum, s) => sum + s.totalCredits, 0),
+          completedCredits: allSemestersSummaries.reduce((sum, s) => sum + s.completedCredits, 0),
+          totalSubjects: allSemestersSummaries.reduce((sum, s) => sum + s.totalSubjects, 0),
+          completedSubjects: allSemestersSummaries.reduce((sum, s) => sum + s.completedSubjects, 0),
+          gpa: cumulativeGpaSummary?.cumulativeGpa ?? null,
+          subjects: allSemestersSummaries.flatMap((s) => s.subjects),
+        }
       : semesterGpaSummary;
 
   return (
