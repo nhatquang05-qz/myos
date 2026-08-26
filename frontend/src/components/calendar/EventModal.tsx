@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CalendarEvent, CreateEventRequest, UpdateEventRequest } from '../../types/event';
 import { Button } from '../common/Button';
+import { DatePickerInput } from '../common/DatePickerInput';
 import { X, AlertCircle, MapPin } from 'lucide-react';
 
 interface EventModalProps {
@@ -71,6 +72,11 @@ export const EventModal: React.FC<EventModalProps> = ({
       return;
     }
 
+    if (!startDate || !endDate) {
+      setFormError('Vui lòng chọn đầy đủ ngày bắt đầu và kết thúc.');
+      return;
+    }
+
     const startDateTime = allDay
       ? new Date(`${startDate}T00:00:00.000Z`)
       : new Date(`${startDate}T${startTime}:00.000Z`);
@@ -104,7 +110,6 @@ export const EventModal: React.FC<EventModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
             {event ? 'Chỉnh sửa sự kiện' : 'Thêm sự kiện mới'}
@@ -118,7 +123,6 @@ export const EventModal: React.FC<EventModalProps> = ({
           </button>
         </div>
 
-        {/* Error Alert */}
         {formError && (
           <div className="mt-4 flex items-center space-x-2 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-400">
             <AlertCircle className="h-4 w-4 shrink-0" />
@@ -126,7 +130,6 @@ export const EventModal: React.FC<EventModalProps> = ({
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -153,7 +156,7 @@ export const EventModal: React.FC<EventModalProps> = ({
                 value={location}
                 onChange={(e) => setLocation(e.target.value)}
                 placeholder="VD: Phòng B304 hoặc Google Meet"
-                className="w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 py-2 text-sm text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-indigo-500 focus:ring-1 focus:ring-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                className="w-full rounded-lg border border-slate-200 bg-white pl-9 pr-3 py-2 text-sm text-slate-900 outline-none transition-all placeholder:text-slate-400 focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
               />
             </div>
           </div>
@@ -170,19 +173,17 @@ export const EventModal: React.FC<EventModalProps> = ({
             </label>
           </div>
 
-          {/* Time pickers */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Bắt đầu
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Bắt đầu (dd/mm/yyyy) <span className="text-rose-500">*</span>
               </label>
-              <div className="mt-1 flex items-center space-x-1.5">
-                <input
-                  type="date"
-                  required
+              <div className="flex items-center space-x-1.5">
+                <DatePickerInput
                   value={startDate}
-                  onChange={(e) => setStartDate(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                  onChange={setStartDate}
+                  placeholder="Ngày bắt đầu"
+                  className="flex-1"
                 />
                 {!allDay && (
                   <input
@@ -190,23 +191,22 @@ export const EventModal: React.FC<EventModalProps> = ({
                     required
                     value={startTime}
                     onChange={(e) => setStartTime(e.target.value)}
-                    className="w-24 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                    className="w-24 rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
                   />
                 )}
               </div>
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Kết thúc
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Kết thúc (dd/mm/yyyy) <span className="text-rose-500">*</span>
               </label>
-              <div className="mt-1 flex items-center space-x-1.5">
-                <input
-                  type="date"
-                  required
+              <div className="flex items-center space-x-1.5">
+                <DatePickerInput
                   value={endDate}
-                  onChange={(e) => setEndDate(e.target.value)}
-                  className="w-full rounded-lg border border-slate-200 bg-white px-2.5 py-1.5 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                  onChange={setEndDate}
+                  placeholder="Ngày kết thúc"
+                  className="flex-1"
                 />
                 {!allDay && (
                   <input
@@ -214,7 +214,7 @@ export const EventModal: React.FC<EventModalProps> = ({
                     required
                     value={endTime}
                     onChange={(e) => setEndTime(e.target.value)}
-                    className="w-24 rounded-lg border border-slate-200 bg-white px-2 py-1.5 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                    className="w-24 rounded-lg border border-slate-200 bg-white px-2 py-2 text-xs text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
                   />
                 )}
               </div>
@@ -234,7 +234,6 @@ export const EventModal: React.FC<EventModalProps> = ({
             />
           </div>
 
-          {/* Footer Actions */}
           <div className="mt-6 flex items-center justify-end space-x-3 border-t border-slate-100 pt-4 dark:border-slate-800">
             <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
               Hủy

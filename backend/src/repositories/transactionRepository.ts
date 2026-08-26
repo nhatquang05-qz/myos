@@ -26,7 +26,7 @@ export class TransactionRepository {
     }
 
     if (filters.from && filters.to) {
-      conditions.push('transaction_date BETWEEN ? AND ?');
+      conditions.push('transaction_date >= ? AND transaction_date <= ?');
       params.push(filters.from, filters.to);
     } else if (filters.from) {
       conditions.push('transaction_date >= ?');
@@ -43,12 +43,10 @@ export class TransactionRepository {
 
     const whereClause = conditions.join(' AND ');
 
-    // 1. Total count
     const countSql = `SELECT COUNT(*) as total FROM transactions WHERE ${whereClause}`;
     const [countRows] = await pool.query<RowDataPacket[]>(countSql, params);
     const total = Number(countRows[0]?.total || 0);
 
-    // 2. Paginated rows
     const page = filters.page || 1;
     const limit = filters.limit || 20;
     const offset = (page - 1) * limit;
@@ -158,7 +156,7 @@ export class TransactionRepository {
     const params: unknown[] = [userId];
 
     if (from && to) {
-      conditions.push('transaction_date BETWEEN ? AND ?');
+      conditions.push('transaction_date >= ? AND transaction_date <= ?');
       params.push(from, to);
     } else if (from) {
       conditions.push('transaction_date >= ?');
@@ -170,7 +168,6 @@ export class TransactionRepository {
 
     const whereClause = conditions.join(' AND ');
 
-    // 1. Overall Income, Expense & Balance
     const summarySql = `
       SELECT 
         COALESCE(SUM(CASE WHEN type = 'INCOME' THEN amount ELSE 0 END), 0) as total_income,
@@ -183,7 +180,6 @@ export class TransactionRepository {
     const totalExpense = Number(summaryRows[0]?.total_expense || 0);
     const balance = totalIncome - totalExpense;
 
-    // 2. Expense by Category
     const categorySql = `
       SELECT category, COALESCE(SUM(amount), 0) as total
       FROM transactions

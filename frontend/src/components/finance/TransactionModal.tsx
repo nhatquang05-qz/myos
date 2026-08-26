@@ -6,6 +6,7 @@ import {
   UpdateTransactionRequest,
 } from '../../types/transaction';
 import { Button } from '../common/Button';
+import { DatePickerInput } from '../common/DatePickerInput';
 import { X, AlertCircle } from 'lucide-react';
 
 interface TransactionModalProps {
@@ -95,7 +96,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
             {transaction ? 'Chỉnh sửa giao dịch' : 'Thêm giao dịch mới'}
@@ -109,7 +109,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           </button>
         </div>
 
-        {/* Error Alert */}
         {formError && (
           <div className="mt-4 flex items-center space-x-2 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-400">
             <AlertCircle className="h-4 w-4 shrink-0" />
@@ -117,9 +116,7 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
-          {/* Type Toggle */}
           <div className="grid grid-cols-2 gap-2 rounded-lg border border-slate-200 bg-slate-50 p-1 dark:border-slate-800 dark:bg-slate-800/50">
             <button
               type="button"
@@ -145,7 +142,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             </button>
           </div>
 
-          {/* Amount */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
               Số tiền (VNĐ) <span className="text-rose-500">*</span>
@@ -162,7 +158,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             />
           </div>
 
-          {/* Category */}
           <div className="grid grid-cols-1 gap-3 sm:grid-cols-2">
             <div>
               <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -183,15 +178,13 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             </div>
 
             <div>
-              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
-                Ngày giao dịch <span className="text-rose-500">*</span>
+              <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+                Ngày giao dịch (dd/mm/yyyy) <span className="text-rose-500">*</span>
               </label>
-              <input
-                type="date"
-                required
+              <DatePickerInput
                 value={transactionDate}
-                onChange={(e) => setTransactionDate(e.target.value)}
-                className="mt-1 w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
+                onChange={setTransactionDate}
+                placeholder="dd/mm/yyyy"
               />
             </div>
           </div>
@@ -212,7 +205,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             </div>
           )}
 
-          {/* Description */}
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
               Mô tả chi tiết
@@ -226,7 +218,6 @@ export const TransactionModal: React.FC<TransactionModalProps> = ({
             />
           </div>
 
-          {/* Footer Actions */}
           <div className="mt-6 flex items-center justify-end space-x-3 border-t border-slate-100 pt-4 dark:border-slate-800">
             <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
               Hủy

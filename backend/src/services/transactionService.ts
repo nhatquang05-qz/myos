@@ -13,17 +13,19 @@ import {
 } from '../types/transaction.js';
 import { AppError } from '../middleware/errorHandler.js';
 
+const formatDateToString = (val: Date | string): string => {
+  if (!val) return '';
+  if (typeof val === 'string') return val.split('T')[0];
+  const year = val.getFullYear();
+  const month = String(val.getMonth() + 1).padStart(2, '0');
+  const day = String(val.getDate()).padStart(2, '0');
+  return `${year}-${month}-${day}`;
+};
+
 export class TransactionService {
   constructor(private txRepo: TransactionRepository) {}
 
   private mapTransactionToResponse(record: TransactionRecord): TransactionResponse {
-    let dateStr = '';
-    if (record.transaction_date instanceof Date) {
-      dateStr = record.transaction_date.toISOString().split('T')[0];
-    } else {
-      dateStr = String(record.transaction_date).split('T')[0];
-    }
-
     return {
       id: record.id,
       userId: record.user_id,
@@ -31,7 +33,7 @@ export class TransactionService {
       category: record.category,
       amount: Number(record.amount),
       description: record.description,
-      transactionDate: dateStr,
+      transactionDate: formatDateToString(record.transaction_date),
       createdAt: new Date(record.created_at).toISOString(),
     };
   }

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Task, TaskPriority, TaskStatus, CreateTaskRequest, UpdateTaskRequest } from '../../types/task';
 import { Button } from '../common/Button';
-import { X, Calendar, AlertCircle } from 'lucide-react';
+import { DatePickerInput } from '../common/DatePickerInput';
+import { X, AlertCircle } from 'lucide-react';
 
 interface TaskModalProps {
   isOpen: boolean;
@@ -73,7 +74,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/50 backdrop-blur-sm">
       <div className="w-full max-w-lg rounded-2xl border border-slate-200 bg-white p-6 shadow-xl dark:border-slate-800 dark:bg-slate-900">
-        {/* Header */}
         <div className="flex items-center justify-between border-b border-slate-100 pb-4 dark:border-slate-800">
           <h3 className="text-lg font-bold text-slate-900 dark:text-white">
             {task ? 'Chỉnh sửa nhiệm vụ' : 'Thêm nhiệm vụ mới'}
@@ -81,12 +81,12 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           <button
             onClick={onClose}
             className="rounded-lg p-1.5 text-slate-400 hover:bg-slate-100 hover:text-slate-600 dark:hover:bg-slate-800"
+            aria-label="Đóng form"
           >
             <X className="h-5 w-5" />
           </button>
         </div>
 
-        {/* Error Alert */}
         {formError && (
           <div className="mt-4 flex items-center space-x-2 rounded-lg border border-rose-200 bg-rose-50 p-3 text-xs text-rose-700 dark:border-rose-900/50 dark:bg-rose-950/40 dark:text-rose-400">
             <AlertCircle className="h-4 w-4 shrink-0" />
@@ -94,7 +94,6 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </div>
         )}
 
-        {/* Form */}
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <div>
             <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">
@@ -152,18 +151,16 @@ export const TaskModal: React.FC<TaskModalProps> = ({
           </div>
 
           <div>
-            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300">Hạn chót (Due Date)</label>
-            <div className="relative mt-1">
-              <input
-                type="date"
-                value={dueDate}
-                onChange={(e) => setDueDate(e.target.value)}
-                className="w-full rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm text-slate-900 outline-none transition-all focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800/50 dark:text-slate-100"
-              />
-            </div>
+            <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
+              Hạn chót (dd/mm/yyyy)
+            </label>
+            <DatePickerInput
+              value={dueDate}
+              onChange={setDueDate}
+              placeholder="Chọn ngày hạn chót"
+            />
           </div>
 
-          {/* Footer Actions */}
           <div className="mt-6 flex items-center justify-end space-x-3 border-t border-slate-100 pt-4 dark:border-slate-800">
             <Button type="button" variant="outline" onClick={onClose} disabled={isSubmitting}>
               Hủy

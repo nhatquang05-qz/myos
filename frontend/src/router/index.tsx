@@ -8,6 +8,8 @@ import { TasksPage } from '../pages/TasksPage';
 import { NotesPage } from '../pages/NotesPage';
 import { CalendarPage } from '../pages/CalendarPage';
 import { FinancePage } from '../pages/FinancePage';
+import { AcademicPage } from '../pages/AcademicPage';
+import { GradesPage } from '../pages/GradesPage';
 import { PlaceholderPage } from '../pages/PlaceholderPage';
 import { ProtectedRoute } from '../components/auth/ProtectedRoute';
 import { PublicOnlyRoute } from '../components/auth/PublicOnlyRoute';
@@ -49,12 +51,20 @@ export const router = createBrowserRouter([
             element: <CalendarPage />,
           },
           {
+            path: '/academic',
+            element: <AcademicPage />,
+          },
+          {
             path: '/study',
-            element: <PlaceholderPage />,
+            element: <AcademicPage />,
+          },
+          {
+            path: '/grades',
+            element: <GradesPage />,
           },
           {
             path: '/gpa',
-            element: <PlaceholderPage />,
+            element: <GradesPage />,
           },
           {
             path: '/finance',

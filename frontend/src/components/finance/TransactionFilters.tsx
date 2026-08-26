@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import { Search, X, Filter, Calendar } from 'lucide-react';
+import { Search, X, Filter } from 'lucide-react';
 import { useFinanceStore } from '../../stores/financeStore';
 import { TransactionType } from '../../types/transaction';
+import { DatePickerInput } from '../common/DatePickerInput';
 
 export const TransactionFilters: React.FC = () => {
   const { filters, categories, setFilters, resetFilters } = useFinanceStore();
@@ -24,7 +25,6 @@ export const TransactionFilters: React.FC = () => {
   return (
     <div className="flex flex-col gap-3 rounded-xl border border-slate-200 bg-white p-4 shadow-sm dark:border-slate-800 dark:bg-slate-900">
       <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-        {/* Search Input */}
         <div className="relative flex-1">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" />
           <input
@@ -45,14 +45,12 @@ export const TransactionFilters: React.FC = () => {
           )}
         </div>
 
-        {/* Dropdowns */}
         <div className="flex flex-wrap items-center gap-2">
           <div className="flex items-center space-x-1.5 text-xs text-slate-500 dark:text-slate-400">
             <Filter className="h-3.5 w-3.5" />
             <span>Lọc:</span>
           </div>
 
-          {/* Type Filter */}
           <select
             value={filters.type || ''}
             onChange={(e) => setFilters({ type: (e.target.value as TransactionType) || undefined })}
@@ -64,7 +62,6 @@ export const TransactionFilters: React.FC = () => {
             <option value="EXPENSE">Chi tiêu (-)</option>
           </select>
 
-          {/* Category Filter */}
           <select
             value={filters.category || ''}
             onChange={(e) => setFilters({ category: e.target.value || undefined })}
@@ -81,27 +78,25 @@ export const TransactionFilters: React.FC = () => {
         </div>
       </div>
 
-      {/* Date Range Bar */}
       <div className="flex flex-wrap items-center justify-between gap-2 border-t border-slate-100 pt-3 dark:border-slate-800">
-        <div className="flex flex-wrap items-center gap-2 text-xs text-slate-600 dark:text-slate-400">
-          <div className="flex items-center space-x-1">
-            <Calendar className="h-3.5 w-3.5 text-slate-400" />
-            <span>Từ:</span>
-            <input
-              type="date"
+        <div className="flex flex-wrap items-center gap-3 text-xs text-slate-600 dark:text-slate-400">
+          <div className="flex items-center space-x-1.5">
+            <span>Từ ngày:</span>
+            <DatePickerInput
               value={filters.from || ''}
-              onChange={(e) => setFilters({ from: e.target.value || undefined })}
-              className="h-7 rounded border border-slate-200 bg-white px-2 text-xs text-slate-800 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-200"
+              onChange={(val) => setFilters({ from: val || undefined })}
+              placeholder="dd/mm/yyyy"
+              className="w-36"
             />
           </div>
 
-          <div className="flex items-center space-x-1">
-            <span>Đến:</span>
-            <input
-              type="date"
+          <div className="flex items-center space-x-1.5">
+            <span>Đến ngày:</span>
+            <DatePickerInput
               value={filters.to || ''}
-              onChange={(e) => setFilters({ to: e.target.value || undefined })}
-              className="h-7 rounded border border-slate-200 bg-white px-2 text-xs text-slate-800 outline-none focus:border-indigo-500 dark:border-slate-800 dark:bg-slate-800 dark:text-slate-200"
+              onChange={(val) => setFilters({ to: val || undefined })}
+              placeholder="dd/mm/yyyy"
+              className="w-36"
             />
           </div>
         </div>
@@ -112,7 +107,7 @@ export const TransactionFilters: React.FC = () => {
               setSearchTerm('');
               resetFilters();
             }}
-            className="flex h-7 items-center space-x-1 rounded-lg border border-slate-200 px-2 text-xs text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
+            className="flex h-8 items-center space-x-1 rounded-lg border border-slate-200 px-2.5 text-xs text-slate-500 hover:bg-slate-50 hover:text-slate-700 dark:border-slate-800 dark:text-slate-400 dark:hover:bg-slate-800"
           >
             <X className="h-3.5 w-3.5" />
             <span>Xóa lọc</span>
