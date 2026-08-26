@@ -1,8 +1,8 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import { errorHandler } from './middleware/errorHandler.js';
-import { ApiResponse } from './types/api.js';
+import healthRoutes from './routes/healthRoutes.js';
 
 dotenv.config();
 
@@ -12,19 +12,10 @@ const PORT = process.env.PORT || 5000;
 app.use(cors());
 app.use(express.json());
 
-// Base healthcheck endpoint
-app.get('/api/health', (_req: Request, res: Response) => {
-  const response: ApiResponse<{ status: string; timestamp: string }> = {
-    success: true,
-    data: {
-      status: 'UP',
-      timestamp: new Date().toISOString(),
-    },
-  };
-  res.status(200).json(response);
-});
+// API Routes
+app.use('/api', healthRoutes);
 
-// Global error handling middleware
+// Global Error Handler
 app.use(errorHandler);
 
 app.listen(PORT, () => {
