@@ -8,10 +8,6 @@ import {
   Calculator,
   Wallet,
   FileText,
-  Code2,
-  Bug,
-  Bookmark,
-  BarChart3,
   Settings,
   X,
   ChevronLeft,
@@ -27,10 +23,6 @@ const navigationItems = [
   { name: 'Grades & GPA', path: '/grades', icon: Calculator },
   { name: 'Finance', path: '/finance', icon: Wallet },
   { name: 'Notes', path: '/notes', icon: FileText },
-  { name: 'Snippets', path: '/snippets', icon: Code2 },
-  { name: 'Error Notebook', path: '/errors', icon: Bug },
-  { name: 'Bookmarks', path: '/bookmarks', icon: Bookmark },
-  { name: 'Statistics', path: '/statistics', icon: BarChart3 },
   { name: 'Settings', path: '/settings', icon: Settings },
 ];
 

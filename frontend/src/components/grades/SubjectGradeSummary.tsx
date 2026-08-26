@@ -49,10 +49,10 @@ export const SubjectGradeSummaryCard: React.FC<SubjectGradeSummaryCardProps> = (
             <div className="text-right">
               <div className="flex items-center justify-end space-x-1.5">
                 <span className="text-base font-black text-indigo-600 dark:text-indigo-400">
-                  {summary.finalScore10?.toFixed(2)}
+                  {summary.finalScore10?.toFixed(1)} {/* Định dạng 1 chữ số thập phân */}
                   <span className="text-xs font-medium text-slate-400 pl-0.5">/10</span>
                 </span>
-                <span className="rounded-md bg-indigo-600 px-1.5 py-0.5 text-xs font-bold text-white shadow-sm">
+                <span className="rounded-md bg-indigo-600 px-2 py-0.5 text-xs font-bold text-white shadow-sm">
                   {summary.letterGrade}
                 </span>
               </div>

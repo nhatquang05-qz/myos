@@ -4,6 +4,10 @@ import { subjectRepository, SubjectRepository } from '../repositories/subjectRep
 import { semesterRepository, SemesterRepository } from '../repositories/semesterRepository.js';
 import { AppError } from '../middleware/errorHandler.js';
 
+const roundTo1Decimal = (num: number): number => {
+  return Math.round(num * 10) / 10;
+};
+
 export class GpaService {
   constructor(
     private gradeRepo: GradeRepository,
@@ -49,12 +53,12 @@ export class GpaService {
       return {
         totalWeight,
         isComplete: false,
-        finalScore10: Number(weightedSum.toFixed(2)),
+        finalScore10: roundTo1Decimal(weightedSum),
         classification: null,
       };
     }
 
-    const finalScore10 = Number(weightedSum.toFixed(2));
+    const finalScore10 = roundTo1Decimal(weightedSum);
     const classification = this.getClassificationScale10(finalScore10);
 
     return {
@@ -169,8 +173,10 @@ export class GpaService {
       totalSubjects += semGpa.totalSubjects;
       totalCompletedSubjects += semGpa.completedSubjects;
 
-      if (semGpa.completedCredits > 0 && semGpa.gpa !== null) {
-        totalWeightedScore10 += semGpa.completedCredits * semGpa.gpa;
+      for (const sub of semGpa.subjects) {
+        if (sub.isComplete && sub.finalScore10 !== null) {
+          totalWeightedScore10 += sub.credits * sub.finalScore10;
+        }
       }
 
       semesterListSummary.push({
